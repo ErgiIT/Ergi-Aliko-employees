@@ -4,10 +4,7 @@
 
 Table{
     margin: 50px 0;
+    margin-bottom: 100px;
 }
 
 
-.addCSV{
-    display:flexbox;
-    
-}
