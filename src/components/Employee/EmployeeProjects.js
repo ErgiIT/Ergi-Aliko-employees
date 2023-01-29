@@ -14,20 +14,16 @@ export default function EmployeeProjects({ emplArray }) {
       emplArray
         .slice(emplArray.indexOf(emp1) + 1, emplArray.length)
         .forEach((emp2) => {
-          // get start and end date of each of employee
           if (emp1[0] !== emp2[0]) {
             const dateFrom1 = new Date(emp1[2]);
             const dateTo1 = emp1[3] === "NULL" ? new Date() : new Date(emp1[3]);
             const dateFrom2 = new Date(emp2[2]);
             const dateTo2 = emp2[3] === "NULL" ? new Date() : new Date(emp2[3]);
-            // check if they are in the same team (working on the same project)
             if (emp1[1] === emp2[1]) {
               if (dateFrom1 <= dateTo2 && dateFrom2 <= dateTo1) {
-                // calculate the start and end day that we need
                 const start = dateFrom1 <= dateFrom2 ? dateFrom2 : dateFrom1;
                 const end = dateTo1 <= dateTo2 ? dateTo1 : dateTo2;
                 if (end >= dateFrom2) {
-                  // put them inside this formula and we get the time they have worked together in days
                   const timeDifference = Math.abs(end - start);
                   const daysDifference = Math.ceil(
                     timeDifference / (1000 * 60 * 60 * 24)
