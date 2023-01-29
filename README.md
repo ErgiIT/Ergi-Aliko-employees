@@ -2,11 +2,11 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Available Scripts
+
 You can install the dependencies by running this in your project directory:
 
 $npm install --legacy-peer-deps
-
-## Available Scripts
 
 In the project directory, you can run:
 
