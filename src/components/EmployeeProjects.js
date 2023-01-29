@@ -36,10 +36,10 @@ export default function EmployeeProjects({ emplArray }) {
                   if (!daysTogether[x]) Object.assign(daysTogether, { [x]: 0 });
                   daysTogether[x] = 1 * daysTogether[x] + diffDays;
 
-                  console.log(daysTogether);
-
-                  if (!pairs[x]) Object.assign(pairs, { [x]: [] });
-                  pairs[x] = [...pairs[x], [el1[0], el2[0], el1[1], diffDays]];
+                  if (!pairs[x]) {
+                    pairs[x] = [];
+                  }
+                  pairs[x].push([el1[0], el2[0], el1[1], diffDays]);
                 }
               }
             }
@@ -100,9 +100,9 @@ export default function EmployeeProjects({ emplArray }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          <TableRow>
-            {pairs[maxPair] ? (
-              <>
+          {pairs[maxPair] ? (
+            pairs[maxPair].map((pair, index) => (
+              <TableRow key={index}>
                 <TableCell
                   align="center"
                   style={{
@@ -110,7 +110,7 @@ export default function EmployeeProjects({ emplArray }) {
                     fontSize: "20px",
                   }}
                 >
-                  {pairs[maxPair][0][0]}
+                  {pair[0]}
                 </TableCell>
                 <TableCell
                   align="center"
@@ -119,7 +119,7 @@ export default function EmployeeProjects({ emplArray }) {
                     fontSize: "20px",
                   }}
                 >
-                  {pairs[maxPair][0][1]}
+                  {pair[1]}
                 </TableCell>
                 <TableCell
                   align="center"
@@ -128,7 +128,7 @@ export default function EmployeeProjects({ emplArray }) {
                     fontSize: "20px",
                   }}
                 >
-                  {pairs[maxPair][0][2]}
+                  {pair[2]}
                 </TableCell>
                 <TableCell
                   align="center"
@@ -137,13 +137,17 @@ export default function EmployeeProjects({ emplArray }) {
                     fontSize: "20px",
                   }}
                 >
-                  {pairs[maxPair][0][3]}
+                  {pair[3]}
                 </TableCell>
-              </>
-            ) : (
-              <p>No data found</p>
-            )}
-          </TableRow>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell align="center" colSpan={4}>
+                No data found
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </div>

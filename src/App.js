@@ -14,12 +14,12 @@ export default function App() {
       {emplArray && <EmployeeProjects emplArray={emplArray} />}
       <CSVReader
         onFileLoaded={handleData}
-        cssInputClass="csv"
         inputStyle={{
           color: "#9c27b0",
           fontSize: "20px",
           margin: "auto",
-          width: "250px",
+          fontWeight: "bolder",
+          width: "fit-content",
         }}
       />
     </div>
