@@ -7,39 +7,42 @@ import TableRow from "@material-ui/core/TableRow";
 import "./Employee.css";
 
 export default function EmployeeProjects({ emplArray }) {
-  let pairs = {};
-  let daysTogether = {};
+  let empPairs = {};
+  let pairDaysTogether = {};
   if (Array.isArray(emplArray) && emplArray.length > 0) {
-    emplArray.forEach((el1) => {
+    emplArray.forEach((emp1) => {
       emplArray
-        .slice(emplArray.indexOf(el1) + 1, emplArray.length)
-        .forEach((el2) => {
+        .slice(emplArray.indexOf(emp1) + 1, emplArray.length)
+        .forEach((emp2) => {
           // get start and end date of each of employee
-          if (el1[0] !== el2[0]) {
-            const startDate1 = new Date(el1[2]);
-            const endDate1 = el1[3] === "NULL" ? new Date() : new Date(el1[3]);
-            const startDate2 = new Date(el2[2]);
-            const endDate2 = el2[3] === "NULL" ? new Date() : new Date(el2[3]);
+          if (emp1[0] !== emp2[0]) {
+            const dateFrom1 = new Date(emp1[2]);
+            const dateTo1 = emp1[3] === "NULL" ? new Date() : new Date(emp1[3]);
+            const dateFrom2 = new Date(emp2[2]);
+            const dateTo2 = emp2[3] === "NULL" ? new Date() : new Date(emp2[3]);
             // check if they are in the same team (working on the same project)
-            if (el1[1] === el2[1]) {
-              if (startDate1 <= endDate2 && startDate2 <= endDate1) {
+            if (emp1[1] === emp2[1]) {
+              if (dateFrom1 <= dateTo2 && dateFrom2 <= dateTo1) {
                 // calculate the start and end day that we need
-                const start =
-                  startDate1 <= startDate2 ? startDate2 : startDate1;
-                const end = endDate1 <= endDate2 ? endDate1 : endDate2;
-                if (end >= startDate2) {
+                const start = dateFrom1 <= dateFrom2 ? dateFrom2 : dateFrom1;
+                const end = dateTo1 <= dateTo2 ? dateTo1 : dateTo2;
+                if (end >= dateFrom2) {
                   // put them inside this formula and we get the time they have worked together in days
-                  const diffTime = Math.abs(end - start);
-                  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                  const x = `${el1[0]}${el2[0]}`;
+                  const timeDifference = Math.abs(end - start);
+                  const daysDifference = Math.ceil(
+                    timeDifference / (1000 * 60 * 60 * 24)
+                  );
+                  const x = `${emp1[0]}${emp2[0]}`;
 
-                  if (!daysTogether[x]) Object.assign(daysTogether, { [x]: 0 });
-                  daysTogether[x] = 1 * daysTogether[x] + diffDays;
+                  if (!pairDaysTogether[x])
+                    Object.assign(pairDaysTogether, { [x]: 0 });
+                  pairDaysTogether[x] =
+                    1 * pairDaysTogether[x] + daysDifference;
 
-                  if (!pairs[x]) {
-                    pairs[x] = [];
+                  if (!empPairs[x]) {
+                    empPairs[x] = [];
                   }
-                  pairs[x].push([el1[0], el2[0], el1[1], diffDays]);
+                  empPairs[x].push([emp1[0], emp2[0], emp1[1], daysDifference]);
                 }
               }
             }
@@ -48,13 +51,13 @@ export default function EmployeeProjects({ emplArray }) {
     });
   }
 
-  const maxPair = Object.keys(daysTogether).reduce((a, b) =>
-    daysTogether[a] > daysTogether[b] ? a : b
+  const maxPair = Object.keys(pairDaysTogether).reduce((a, b) =>
+    pairDaysTogether[a] > pairDaysTogether[b] ? a : b
   );
 
   return (
     <div>
-      <Table size="medium" style={{}}>
+      <Table size="medium">
         <TableHead>
           <TableRow>
             <TableCell
@@ -100,8 +103,8 @@ export default function EmployeeProjects({ emplArray }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {pairs[maxPair] ? (
-            pairs[maxPair].map((pair, index) => (
+          {empPairs[maxPair] ? (
+            empPairs[maxPair].map((pair, index) => (
               <TableRow key={index}>
                 <TableCell
                   align="center"

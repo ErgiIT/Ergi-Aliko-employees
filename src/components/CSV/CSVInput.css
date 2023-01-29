@@ -1,0 +1,14 @@
+.container {
+    text-align: center;
+    padding: 15px;
+    margin: 10px auto;
+  }
+  
+  .csv-input {
+    padding: 10px;
+    display: block;
+    margin: 15px auto;
+    border: 3px solid purple;
+    border-radius: 5px;
+    width: fit-content;
+  }
